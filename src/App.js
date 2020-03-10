@@ -14,15 +14,33 @@ const columnsFromBackend = {
   }
 };
 
+const onDragEnd = (result, columns, setColumns) => {
+  if (!result.destination) return;
+  const { source, destination } = result;
+  const column = columns[source.droppableId];
+  const copiedItems = [...column.items];
+  const [removed] = copiedItems.splice(source.index, 1);
+  copiedItems.splice(destination.index, 0, removed);
+  setColumns({
+    ...columns,
+    [source.droppableId]: {
+      ...column,
+      items: copiedItems
+    }
+  });
+};
+
 const App = () => {
   const [columns, setColumns] = useState(columnsFromBackend);
 
   return (
     <div className="container">
-      <DragDropContext onDropEnd={result => console.log(result)}>
+      <DragDropContext
+        onDragEnd={result => onDragEnd(result, columns, setColumns)}
+      >
         {Object.entries(columns).map(([id, column]) => {
           return (
-            <Droppable droppableId={id}>
+            <Droppable droppableId={id} key={id}>
               {(provided, snapshot) => {
                 return (
                   <div
@@ -63,6 +81,7 @@ const App = () => {
                         </Draggable>
                       );
                     })}
+                    {provided.placeholder}
                   </div>
                 );
               }}
