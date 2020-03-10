@@ -4,6 +4,10 @@ body,
   height: 100%;
 }
 
+h2{
+  color: white;
+}
+
 body {
   margin: 0;
   background-color: rgb(68, 68, 68);
@@ -20,6 +24,7 @@ body {
   padding: 4px;
   width: 250px; 
   min-height: 500px;
+  margin: 8px;
 }
 
 .draggable {
@@ -29,3 +34,9 @@ body {
   min-height: 50px;
   color: white;
   }
+
+.drag-drop-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
